@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-
 class PostCreate extends StatefulWidget {
-  PostCreate({Key key}) : super(key: key);
 
   @override
   _PostCreateState createState() => _PostCreateState();

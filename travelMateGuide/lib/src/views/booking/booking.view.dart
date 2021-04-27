@@ -8,8 +8,6 @@ class Booking extends StatefulWidget {
 class _BookingState extends State<Booking> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(child: Text('Booking')),
-    );
+    return SafeArea(child: null);
   }
 }
