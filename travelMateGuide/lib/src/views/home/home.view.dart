@@ -1,5 +1,6 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:travelMateGuide/src/views/postView/post.view.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -7,14 +8,6 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
-  double screenWidthAdjustment;
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    screenWidthAdjustment = MediaQuery.of(context).size.width - 48.0 - 64.0;
-  }
-
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,10 +40,17 @@ class _HomeState extends State<Home> {
           ),
           Expanded(
             child: ListView.builder(
+                physics: BouncingScrollPhysics(), // test this
                 itemExtent: 200.0,
                 itemCount: 20,
                 itemBuilder: (BuildContext context, int index) {
                   return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => PostView()),
+                      );
+                    },
                     child: Padding(
                       padding:
                           const EdgeInsets.only(top: 15, left: 5, right: 5),
@@ -63,7 +63,8 @@ class _HomeState extends State<Home> {
                               color: Colors.grey.withOpacity(0.2),
                               spreadRadius: 5,
                               blurRadius: 7,
-                              offset:Offset(0, 3), // changes position of shadow
+                              offset:
+                                  Offset(0, 3), // changes position of shadow
                             ),
                           ],
                         ),
@@ -115,45 +116,3 @@ class _HomeState extends State<Home> {
     ));
   }
 }
-// Container(
-//                         height: 120,
-//                         decoration: BoxDecoration(
-//                           borderRadius: BorderRadius.circular(15),
-//                           image: DecorationImage(
-//                             image: AssetImage('images/bg.jpg'),
-//                             fit: BoxFit.cover
-//                           ),
-//                         ),
-//                         child: Stack(
-//                           children: [
-//                             Positioned(
-//                               top: 20.0,
-//                               left: 100.0,
-//                               width: screenWidthAdjustment,
-//                               child: Material(
-//                                 color: Colors.transparent,
-//                                 child: Text(
-//                                   'Sinharaja Forest Reserve',
-//                                   style: TextStyle(
-//                                       color: Colors.black,
-//                                       fontSize: 22,
-//                                       fontWeight: FontWeight.bold),
-//                                   maxLines: 3,
-//                                 ),
-//                               ),
-//                             ),
-//                             Positioned(
-//                               top: 18.0,
-//                               left: 15.0,
-//                               child: CircularProfileAvatar(
-//                                 null,
-//                                 child: Image(image: AssetImage('images/user.png'), fit: BoxFit.cover,),
-//                                 borderColor: Colors.white,
-//                                 borderWidth: 1,
-//                                 elevation: 2,
-//                                 radius: 30,
-//                               ),
-//                             )
-//                           ],
-//                         ),
-//                       ),
