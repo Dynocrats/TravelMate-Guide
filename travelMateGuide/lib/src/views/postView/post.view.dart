@@ -37,15 +37,14 @@ class _PostViewState extends State<PostView> {
               ],
             ),
           ),
-         Container(
-           decoration: BoxDecoration(
-             color: Colors.blue,
-             borderRadius: BorderRadius.only(
-               topLeft: Radius.circular(15.0),
-               topRight: Radius.circular(15.0)
-             )
+         Expanded(
+           child: Container(
+             width: MediaQuery.of(context).size.width,
+             decoration: BoxDecoration(
+               color: Colors.blue,
+             ),
+             child: Text('data'),
            ),
-           child: Text('data'),
          )
         ],
       ),
