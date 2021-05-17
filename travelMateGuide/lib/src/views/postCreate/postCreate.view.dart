@@ -185,13 +185,13 @@ class _PostCreateState extends State<PostCreate> {
                                   child: TextFormField(
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Please Enter Location';
+                                        return 'Please Enter Location Link';
                                       }
                                       return null;
                                     },
                                     decoration: InputDecoration(
                                       border: InputBorder.none,
-                                      labelText: 'Location',
+                                      labelText: 'Location Link',
                                     ),
                                     onChanged: (value) {
                                       guiderLocation = value;
