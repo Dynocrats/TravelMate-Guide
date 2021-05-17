@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:travelMateGuide/src/widget/backgroung.painter.dart';
-import 'package:travelMateGuide/src/widget/google.signup.button.widget.dart';
+import 'package:travelMateGuide/src/views/widgets/backgroung.painter.dart';
+import 'package:travelMateGuide/src/views/widgets/google.signup.button.widget.dart';
 
 class SignUpWidget extends StatelessWidget {
   @override

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelMateGuide/src/provider/google.signin.dart';
 import 'package:travelMateGuide/src/views/navigationBar/navigationBar.view.dart';
-import 'package:travelMateGuide/src/widget/backgroung.painter.dart';
-import 'package:travelMateGuide/src/widget/sign.up.widget.dart';
+import 'package:travelMateGuide/src/views/widgets/backgroung.painter.dart';
+import 'package:travelMateGuide/src/views/widgets/sign.up.widget.dart';
 
 class HomePage extends StatelessWidget {
   @override
