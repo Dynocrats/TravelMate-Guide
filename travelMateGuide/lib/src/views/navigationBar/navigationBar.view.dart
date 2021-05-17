@@ -3,7 +3,7 @@ import 'package:travelMateGuide/src/views/booking/booking.view.dart';
 import 'package:travelMateGuide/src/views/home/home.view.dart';
 import 'package:travelMateGuide/src/views/postCreate/postCreate.view.dart';
 import 'package:travelMateGuide/src/views/widgets/navigationBar.widget.dart';
-import 'package:travelMateGuide/src/widget/logged.in.widget.dart';
+import 'package:travelMateGuide/src/views/widgets/logged.in.widget.dart';
 
 class NavigationBar extends StatefulWidget {
   @override
