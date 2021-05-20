@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:travelMateGuide/src/views/booking/booking.view.dart';
 import 'package:travelMateGuide/src/views/home/home.view.dart';
 import 'package:travelMateGuide/src/views/postCreate/postCreate.view.dart';
+import 'package:travelMateGuide/src/views/profile/profile.view.dart';
 import 'package:travelMateGuide/src/views/widgets/navigationBar.widget.dart';
-import 'package:travelMateGuide/src/views/widgets/logged.in.widget.dart';
+
 
 class NavigationBar extends StatefulWidget {
   @override
@@ -17,8 +18,7 @@ class _NavigationBarState extends State<NavigationBar> {
     Home(),
     Booking(),
     PostCreate(),
-    // Profile()
-    LoggedInWidget()
+    Profile()
   ];
 
   void changeIndexNumber(value) {

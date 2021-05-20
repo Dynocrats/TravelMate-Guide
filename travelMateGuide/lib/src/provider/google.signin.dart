@@ -55,7 +55,7 @@ class GoogleSignInProvider extends ChangeNotifier {
       await db.collection('users').doc(user.uid).set({
         'userId': user.uid,
         'userName': user.displayName,
-        'userEmail': user.email,
+        'userEmail': user.providerData[0].email,
         'userImageUrl': user.photoURL,
         'guiderContact': null,
         'guiderAbout': null,

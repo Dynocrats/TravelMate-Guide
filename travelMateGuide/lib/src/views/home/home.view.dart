@@ -1,6 +1,8 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:paginate_firestore/paginate_firestore.dart';
+import 'package:provider/provider.dart';
+import 'package:travelMateGuide/src/provider/post.provider.dart';
 import 'package:travelMateGuide/src/service/all.posts.service.dart';
 import 'package:travelMateGuide/src/views/postView/post.view.dart';
 
@@ -12,6 +14,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
+    final PostViewBloc postViewBloc = Provider.of<PostViewBloc>(context);
     return Container(
       decoration: BoxDecoration(
           gradient: LinearGradient(
@@ -59,6 +62,13 @@ class _HomeState extends State<Home> {
 
                   return  GestureDetector(
                     onTap: () {
+                      postViewBloc.changePostViewBloc(
+                        guiderPlaceName: documentSnapshot.data()['guiderTitle'],
+                        guiderPlaceImageUrl: documentSnapshot.data()['guiderImageUrl'],
+                        guiderLocation: documentSnapshot.data()['guiderLocation'],
+                        guiderDesc: documentSnapshot.data()['guiderDesc'],
+                        guiderPrice: documentSnapshot.data()['guiderPrice'],
+                      );
                       Navigator.push(
                         context,
                         MaterialPageRoute(builder: (context) => PostView()),

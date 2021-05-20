@@ -6,19 +6,24 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:travelMateGuide/src/views/widgets/custom.btn.dart';
-class PostCreate extends StatefulWidget {
 
+class ProfileUpdate extends StatefulWidget {
   @override
-  _PostCreateState createState() => _PostCreateState();
+  _ProfileUpdateState createState() => _ProfileUpdateState();
 }
 
-class _PostCreateState extends State<PostCreate> {
-
-  String guiderTitle, guiderDesc, guiderLocation, guiderPrice, guiderImageUrl;
-
+class _ProfileUpdateState extends State<ProfileUpdate> {
+  String guideName,
+      guideEmail,
+      guideProfileImageUrl,
+      guideContactNumber,
+      guiderAbout,
+      guideLocation,
+      guideLanguage;
   final user = FirebaseAuth.instance.currentUser;
   final formKey = GlobalKey<FormState>();
-  final FirebaseStorage storage = FirebaseStorage(storageBucket: 'gs://travelmate-620f4.appspot.com');
+  final FirebaseStorage storage =
+      FirebaseStorage(storageBucket: 'gs://travelmate-620f4.appspot.com');
   StorageUploadTask uploadTask;
   PickedFile imageFile;
   String fileName;
@@ -26,7 +31,7 @@ class _PostCreateState extends State<PostCreate> {
   final db = FirebaseFirestore.instance;
 
   // Loading State
-  bool createPost = false;
+  bool updateProfile = false;
 
   // Select Image gallery or camera
   selectImage(ImageSource source) async {
@@ -38,56 +43,47 @@ class _PostCreateState extends State<PostCreate> {
 
   // upload Image Firestore
   uploadImageFirestore() async {
-    String filePath = 'posts/${DateTime.now()}.jpg';
+    String filePath = 'hotels/${DateTime.now()}.jpg';
     setState(() {
       uploadTask = storage.ref().child(filePath).putFile(File(imageFile.path));
       fileName = filePath;
     });
     var url = await (await uploadTask.onComplete).ref.getDownloadURL();
     setState(() {
-      guiderImageUrl = url.toString();
+      guideProfileImageUrl = url.toString();
     });
   }
 
-  // Create New Post Data in Firestorage
-  void createNewPost() async {
-    String userImageUrl;
-    await db.collection('users').where('userType', isEqualTo: 'guider').get().then((querySnapshot) {
-      querySnapshot.docs.forEach((element) {
-        if (element.id == user.uid) {
-          userImageUrl = element.data()['userImageUrl'];
-        }
-      });
-    });
+  // Update Data in Firestorage
+  void updateUser() async {
     await db
-        .collection('posts')
-        .add({
-          'guiderTitle': guiderTitle,
-          'userImageUrl': userImageUrl,
-          'guiderLocation': guiderLocation,
-          'guiderPrice': guiderPrice,
-          'guiderImageUrl': guiderImageUrl,
-          'guiderDesc': guiderDesc,
-          'userType': 'guider',
-          'date': DateTime.now()
+        .collection('users')
+        .doc(user.uid)
+        .update({
+          'userName': guideName,
+          'userEmail': guideEmail,
+          'userImageUrl': guideProfileImageUrl,
+          'guiderContact': guideContactNumber,
+          'guiderAbout': guiderAbout,
+          'guiderLocation': guideLocation,
+          'guiderLanguages': guideLanguage,
         })
-        .then((value) => print("Post Created"))
+        .then((value) => print("User Updated"))
         .catchError((error) => print("Failed to update user: $error"));
   }
 
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Colors.blue,
-                  Colors.green,
-              ],
+            gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.blue,
+            Colors.green,
+          ],
         )),
         child: ListView(
           children: [
@@ -97,11 +93,11 @@ class _PostCreateState extends State<PostCreate> {
                 child: Column(
                   children: [
                     SizedBox(
-                      height: 30.0,
+                      height: 10.0,
                     ),
                     Container(
                       child: Text(
-                        'Upload Image[required]',
+                        'Upload User Profile[required]',
                         style: TextStyle(
                             color: Colors.red,
                             fontWeight: FontWeight.bold,
@@ -154,7 +150,6 @@ class _PostCreateState extends State<PostCreate> {
                       margin: EdgeInsets.symmetric(horizontal: 16.0),
                       child: Column(
                         children: [
-
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Container(
@@ -168,20 +163,97 @@ class _PostCreateState extends State<PostCreate> {
                                     child: TextFormField(
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please Enter Title';
+                                          return 'Please Enter User Name';
                                         }
                                         return null;
                                       },
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        labelText: 'Title',
+                                        labelText: 'User Name',
                                       ),
                                       onChanged: (value) {
-                                        guiderTitle = value;
+                                        guideName = value;
                                       },
                                     ))),
                           ),
-
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFD5F1FB),
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 15, right: 15, top: 5),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please Enter Email';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        labelText: 'Email',
+                                      ),
+                                      onChanged: (value) {
+                                        guideEmail = value;
+                                      },
+                                    ))),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFD5F1FB),
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 15, right: 15, top: 5),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please Enter Contact Number';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        labelText: 'Contact Number',
+                                      ),
+                                      onChanged: (value) {
+                                        guideContactNumber = value;
+                                      },
+                                    ))),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10.0),
+                            child: Container(
+                                decoration: BoxDecoration(
+                                  color: Color(0xFFFD5F1FB),
+                                  borderRadius: new BorderRadius.circular(10.0),
+                                ),
+                                child: Padding(
+                                    padding: EdgeInsets.only(
+                                        left: 15, right: 15, top: 5),
+                                    child: TextFormField(
+                                      validator: (value) {
+                                        if (value == null || value.isEmpty) {
+                                          return 'Please Enter Languages';
+                                        }
+                                        return null;
+                                      },
+                                      decoration: InputDecoration(
+                                        border: InputBorder.none,
+                                        labelText: 'Languages',
+                                      ),
+                                      onChanged: (value) {
+                                        guideLanguage = value;
+                                      },
+                                    ))),
+                          ),
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Container(
@@ -204,11 +276,10 @@ class _PostCreateState extends State<PostCreate> {
                                         labelText: 'Location Link',
                                       ),
                                       onChanged: (value) {
-                                        guiderLocation = value;
+                                        guideLocation = value;
                                       },
                                     ))),
                           ),
-
                           Padding(
                             padding: const EdgeInsets.only(top: 10.0),
                             child: Container(
@@ -222,34 +293,7 @@ class _PostCreateState extends State<PostCreate> {
                                     child: TextFormField(
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please Enter Price';
-                                        }
-                                        return null;
-                                      },
-                                      decoration: InputDecoration(
-                                        border: InputBorder.none,
-                                        labelText: 'Price',
-                                      ),
-                                      onChanged: (value) {
-                                        guiderPrice = value;
-                                      },
-                                    ))),
-                          ),
-
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10.0),
-                            child: Container(
-                                decoration: BoxDecoration(
-                                  color: Color(0xFFFD5F1FB),
-                                  borderRadius: new BorderRadius.circular(10.0),
-                                ),
-                                child: Padding(
-                                    padding: EdgeInsets.only(
-                                        left: 15, right: 15, top: 5),
-                                    child: TextFormField(
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please Enter Description';
+                                          return 'Please Enter About';
                                         }
                                         return null;
                                       },
@@ -257,58 +301,63 @@ class _PostCreateState extends State<PostCreate> {
                                       maxLines: 10,
                                       decoration: InputDecoration(
                                         border: InputBorder.none,
-                                        labelText: 'Description',
+                                        labelText: 'About',
                                       ),
                                       onChanged: (value) {
-                                        guiderDesc = value;
+                                        guiderAbout = value;
                                       },
                                     ))),
                           ),
-                          SizedBox(
-                            height: 20.0,
-                          ),
-                          CreateBtn(
-                            text: 'Create Post',
-                            onPressed: () async{
-                              if(formKey.currentState.validate()){
-                                setState(() {
-                            createPost = true;
-                          });
-                          await uploadImageFirestore();
-                          createNewPost();
-                          setState(() {
-                            createPost = false;
-                          });
-                          AwesomeDialog(
-                              context: context,
-                              animType: AnimType.BOTTOMSLIDE,
-                              headerAnimationLoop: false,
-                              dialogType: DialogType.SUCCES,
-                              title: 'Succes',
-                              desc: 'New Post Created!',
-                              dismissOnTouchOutside: false,
-                              btnOkOnPress: () {
-                                debugPrint('OnClcik');
-                                // Navigator.pop(context);
-                              },
-                              btnOkIcon: Icons.check_circle,
-                              onDissmissCallback: () {
-                                debugPrint('Dialog Dissmiss from callback');
-                              })
-                            ..show();
-                              }
-                            },
-                            isLoading: createPost,
-                          )
                         ],
                       ),
                     ),
-                   SizedBox(height: 10.0,),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    Container(
+                      margin: EdgeInsets.symmetric(horizontal: 16),
+                      child: CreateBtn(
+                        text: 'Update Profile',
+                        onPressed: () async {
+                          if (formKey.currentState.validate()) {
+                            setState(() {
+                              updateProfile = true;
+                            });
+                            await uploadImageFirestore();
+                            updateUser();
+                            setState(() {
+                              updateProfile = false;
+                            });
+                            AwesomeDialog(
+                                context: context,
+                                animType: AnimType.BOTTOMSLIDE,
+                                headerAnimationLoop: false,
+                                dialogType: DialogType.SUCCES,
+                                title: 'Succes',
+                                desc: 'your prifile update succefuly!',
+                                dismissOnTouchOutside: false,
+                                btnOkOnPress: () {
+                                  debugPrint('OnClcik');
+                                  Navigator.pop(context);
+                                },
+                                btnOkIcon: Icons.check_circle,
+                                onDissmissCallback: () {
+                                  debugPrint('Dialog Dissmiss from callback');
+                                })
+                              ..show();
+                          }
+                          print('Upload Profile');
+                        },
+                        isLoading: updateProfile,
+                      ),
+                    ),
+                    SizedBox(
+                      height: 10.0,
+                    ),
                   ],
                 ),
               ),
             ),
-
           ],
         ),
       ),
