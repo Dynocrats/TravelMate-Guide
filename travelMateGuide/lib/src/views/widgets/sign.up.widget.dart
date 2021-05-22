@@ -7,19 +7,26 @@ class SignUpWidget extends StatelessWidget {
   Widget build(BuildContext context) => Stack(
         fit: StackFit.expand,
         children: [
-          CustomPaint(painter: BackgroundPainter()),
           buildSignUp(),
         ],
       );
 
-  Widget buildSignUp() => Column(
-        children: [
-          Spacer(),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: Container(
-              margin: EdgeInsets.symmetric(horizontal: 20),
-              width: 175,
+  Widget buildSignUp() => Container(
+        decoration: BoxDecoration(
+            gradient: LinearGradient(
+          begin: Alignment.topRight,
+          end: Alignment.bottomLeft,
+          colors: [
+            Colors.blue,
+            Colors.green,
+          ],
+        )),
+        child: Column(
+          children: [
+            Spacer(),
+            Container(
+              alignment: Alignment.center,
+              width: 275,
               child: Text(
                 'TravelMate Guide',
                 style: TextStyle(
@@ -29,15 +36,26 @@ class SignUpWidget extends StatelessWidget {
                 ),
               ),
             ),
-          ),
-          Spacer(),
-          GoogleSignupButtonWidget(),
-          SizedBox(height: 12),
-          Text(
-            'Login to continue',
-            style: TextStyle(fontSize: 16),
-          ),
-          Spacer(),
-        ],
+            SizedBox(height: 12),
+            Container(
+              decoration: BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("images/App.png"),
+                    fit: BoxFit.fill,
+                  ),
+                  borderRadius: BorderRadius.circular(30.0)),
+              height: 200.0,
+              width: 200.0,
+            ),
+            SizedBox(height: 50.0),
+            GoogleSignupButtonWidget(),
+            SizedBox(height: 12),
+            Text(
+              'Login to continue',
+              style: TextStyle(fontSize: 16, color: Colors.white),
+            ),
+            Spacer(),
+          ],
+        ),
       );
 }

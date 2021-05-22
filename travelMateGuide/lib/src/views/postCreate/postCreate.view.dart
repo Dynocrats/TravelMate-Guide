@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:travelMateGuide/src/views/navigationBar/navigationBar.view.dart';
 import 'package:travelMateGuide/src/views/widgets/custom.btn.dart';
 class PostCreate extends StatefulWidget {
 
@@ -62,6 +63,7 @@ class _PostCreateState extends State<PostCreate> {
     await db
         .collection('posts')
         .add({
+          'uid': user.uid,
           'guiderTitle': guiderTitle,
           'userImageUrl': userImageUrl,
           'guiderLocation': guiderLocation,
@@ -271,31 +273,31 @@ class _PostCreateState extends State<PostCreate> {
                             text: 'Create Post',
                             onPressed: () async{
                               if(formKey.currentState.validate()){
-                                setState(() {
-                            createPost = true;
-                          });
-                          await uploadImageFirestore();
-                          createNewPost();
-                          setState(() {
-                            createPost = false;
-                          });
-                          AwesomeDialog(
-                              context: context,
-                              animType: AnimType.BOTTOMSLIDE,
-                              headerAnimationLoop: false,
-                              dialogType: DialogType.SUCCES,
-                              title: 'Succes',
-                              desc: 'New Post Created!',
-                              dismissOnTouchOutside: false,
-                              btnOkOnPress: () {
-                                debugPrint('OnClcik');
-                                // Navigator.pop(context);
-                              },
-                              btnOkIcon: Icons.check_circle,
-                              onDissmissCallback: () {
-                                debugPrint('Dialog Dissmiss from callback');
-                              })
-                            ..show();
+                                    setState(() {
+                                createPost = true;
+                              });
+                              await uploadImageFirestore();
+                              createNewPost();
+                              setState(() {
+                                createPost = false;
+                              });
+                              AwesomeDialog(
+                                  context: context,
+                                  animType: AnimType.BOTTOMSLIDE,
+                                  headerAnimationLoop: false,
+                                  dialogType: DialogType.SUCCES,
+                                  title: 'Succes',
+                                  desc: 'New Post Created!',
+                                  dismissOnTouchOutside: false,
+                                  btnOkOnPress: () {
+                                    debugPrint('OnClcik');
+                                    Navigator.push(context, MaterialPageRoute(builder: (context) => NavigationBar()),);
+                                  },
+                                  btnOkIcon: Icons.check_circle,
+                                  onDissmissCallback: () {
+                                    debugPrint('Dialog Dissmiss from callback');
+                                  })
+                                ..show();
                               }
                             },
                             isLoading: createPost,

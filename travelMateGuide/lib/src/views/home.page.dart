@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travelMateGuide/src/provider/google.signin.dart';
 import 'package:travelMateGuide/src/views/navigationBar/navigationBar.view.dart';
-import 'package:travelMateGuide/src/views/widgets/backgroung.painter.dart';
 import 'package:travelMateGuide/src/views/widgets/sign.up.widget.dart';
 
 class HomePage extends StatelessWidget {
@@ -33,8 +32,20 @@ class HomePage extends StatelessWidget {
   Widget buildLoading() => Stack(
         fit: StackFit.expand,
         children: [
-          CustomPaint(painter: BackgroundPainter()),
-          Center(child: CircularProgressIndicator()),
+          // CustomPaint(painter: BackgroundPainter()),
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                colors: [
+                  Colors.blue,
+                  Colors.green,
+                ],
+              )
+          ),
+            child: Center(child: CircularProgressIndicator())
+          ),
         ],
       );
 }
