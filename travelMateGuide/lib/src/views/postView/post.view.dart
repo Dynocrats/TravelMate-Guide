@@ -10,7 +10,6 @@ class PostView extends StatefulWidget {
 class _PostViewState extends State<PostView> {
   @override
   Widget build(BuildContext context) {
-
     final PostViewBloc postViewBloc = Provider.of<PostViewBloc>(context);
 
     return Scaffold(
@@ -30,7 +29,9 @@ class _PostViewState extends State<PostView> {
               height: 400.0,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(postViewBloc.getGuiderPlaceImageUrl()), fit: BoxFit.cover),
+                      image:
+                          NetworkImage(postViewBloc.getGuiderPlaceImageUrl()),
+                      fit: BoxFit.cover),
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(50.0),
                       bottomRight: Radius.circular(50.0))),
@@ -71,7 +72,10 @@ class _PostViewState extends State<PostView> {
                                 ),
                                 Row(
                                   children: [
-                                    Text('FEATURES', style: TextStyle(color: Colors.white),),
+                                    Text(
+                                      'FEATURES',
+                                      style: TextStyle(color: Colors.white),
+                                    ),
                                     SizedBox(
                                       width: 20.0,
                                     ),
@@ -98,19 +102,20 @@ class _PostViewState extends State<PostView> {
                     ),
                     Container(
                       margin: EdgeInsets.only(left: 20.0, right: 20.0),
-                      child: Text(
-                           postViewBloc.guiderDesc,
-                        textAlign: TextAlign.justify,
-                        style: TextStyle(color: Colors.white,)
-                      ),
+                      child: Text(postViewBloc.guiderDesc,
+                          textAlign: TextAlign.justify,
+                          style: TextStyle(
+                            color: Colors.white,
+                          )),
                     ),
                     Expanded(
-                      child: Container(
-                        margin: EdgeInsets.all(20.0),
-                        width: MediaQuery.of(context).size.width,
-                        decoration: BoxDecoration(color: Colors.blue[200]),
-                      ),
-                    )
+                        child: Container(
+                      margin: EdgeInsets.all(20.0),
+                      decoration: BoxDecoration(
+                          image: DecorationImage(
+                              image: AssetImage('images/map.jpg'),
+                              fit: BoxFit.cover)),
+                    ))
                   ],
                 ),
               ),
